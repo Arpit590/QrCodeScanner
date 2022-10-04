@@ -1,9 +1,11 @@
-import { Image, Alert, StyleSheet, Text, TouchableOpacity, View,ScrollView } from 'react-native'
+import { Image, Alert, StyleSheet, Text, TouchableOpacity, View,ScrollView, Dimensions } from 'react-native'
 import React, { useState } from 'react';
 import GroupIcon from "../assets/Group.svg";
 import ArrowIcon from "../assets/Arrow.svg";
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
+
+const {height, width} = Dimensions.get("window");
 
 const MainPage = () => {
 
@@ -28,55 +30,55 @@ const MainPage = () => {
 
 
   return (
-    <ScrollView style={styles.screen}>
+    <View style={styles.screen}>
       <View style={styles.view}>
-        <View style={{position:"absolute", left:-28, zIndex:100}}>
+        <View style={styles.view1}>
           <GroupIcon/>
         </View>
-        <Text style={{fontSize:20, fontWeight:"700", color:"#FFFFFF", marginLeft:17}}>50</Text>
+        <Text style={styles.groupText}>50</Text>
       </View>
-      <View>
-        <View style={{flexDirection:"row", alignItems:"center", marginTop:30, justifyContent:"center", marginLeft:-40}}>
+      <ScrollView>
+        <View style={styles.headingContent}>
           <Image
           source={require('../assets/Arrow.png')}
-          style={{height:200, width:200, resizeMode:"contain"}}
+          style={styles.arrowImage}
           />
-          <View style={{flexDirection:"row", alignItems:"center", marginLeft:-30, marginTop:25}}>
+          <View style={styles.view2}>
             <View style={{flexDirection:"row", alignItems:"center"}}>
-              <Text style={{fontSize:20, color:"#FFFFFF", fontWeight:"700", marginRight:-10}}>1</Text>
+              <Text style={[styles.viewText, {marginRight:-10}]}>1</Text>
               <GroupIcon
               height={'30'}
               />
             </View>
             <View style={{flexDirection:"row", alignItems:"center"}}>
-            <Text style={{fontSize:20, color:"#FFFFFF", fontWeight:"700", marginRight:9}}>=</Text>
-              <Text style={{fontSize:20, color:"#FFFFFF", fontWeight:"700"}}>₹</Text>
-              <Text style={{fontSize:20, color:"#FFFFFF", fontWeight:"700"}}> 1</Text>
+            <Text style={[styles.viewText, {marginRight:9}]}>=</Text>
+              <Text style={styles.viewText}>₹</Text>
+              <Text style={styles.viewText}> 1</Text>
             </View>
           </View>
         </View>
-        <View style={{backgroundColor: scannerActive ? "transparent" : "#424242", borderRadius:20, padding:20, marginHorizontal:20,alignItems:"center", marginTop:-50, height: 350}}>
+        <View style={[styles.scannerBackground, {backgroundColor: scannerActive ? "transparent" : "#424242"}]}>
           {(!scannerActive)
           ?
           <Image
           source={require("../assets/QR.png")}
-          style={{height:300, width:300, resizeMode:"contain"}}
+          style={styles.qrImage}
           />
           :
           <QRCodeScanner
           onRead={scanHandler}
           flashMode={RNCamera.Constants.FlashMode.torch}
-          cameraStyle={{height:260, width:260, position:"absolute", alignSelf:"center", justifyContent:"center"}}
+          cameraStyle={styles.qrCode}
         />}
         </View>
         <View style={{marginTop:10}}>
-          <View style={{flexDirection:"row", alignItems:"flex-start", justifyContent:"center"}}>
-            <Text style={{fontSize:20, color:"#FFFFFF", fontWeight:"700", marginRight:-60}}>Share your</Text>
+          <View style={styles.shareView}>
+            <Text style={styles.shareHeading1}>Share your</Text>
             <Image
             source={require("../assets/Love.png")}
-            style={{height:150, width:150, resizeMode:"contain", marginTop:-10}}
+            style={styles.shareImage}
             />
-            <Text style={{fontSize:20, color:"#FFFFFF", fontWeight:"700", marginLeft:-60}}> with seller</Text>
+            <Text style={styles.shareHeading2}> with seller</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -84,10 +86,10 @@ const MainPage = () => {
         style={[styles.button, {backgroundColor: !scannerActive ? "#FE1E25" : "#424242"}]}
         onPress={scannerActive ? stopHandler : scanHandler}
         >
-          <Text style={{fontSize:25, fontWeight:"700", color:"white"}}>{scannerActive ? 'STOP' : 'SCAN'}</Text>
+          <Text style={styles.buttonText}>{scannerActive ? 'STOP' : 'SCAN'}</Text>
         </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   )
 }
 
@@ -108,11 +110,95 @@ const styles = StyleSheet.create({
         padding:5,
         width:"20%"
     },
+    headingContent:{
+      flexDirection:"row", 
+      alignItems:"center", 
+      marginTop:30, 
+      justifyContent:"center", 
+      marginLeft:-40
+    },
+    arrowImage:{
+      height:height-400, 
+      width:width-130, 
+      resizeMode:"contain"
+    },
+    groupText:{
+      fontSize:20, 
+      fontWeight:"700", 
+      color:"#FFFFFF", 
+      marginLeft:17
+    },
+    view2:{
+      flexDirection:"row", 
+      alignItems:"center", 
+      marginLeft:-30,
+      marginTop:25
+    },
+    viewText:{
+      fontSize:20, 
+      color:"#FFFFFF", 
+      fontWeight:"700", 
+    },
+    view1:{
+      position:"absolute", 
+      left:-28, 
+      zIndex:100
+    },
+    scannerBackground:{ 
+      borderRadius:20, 
+      padding:20, 
+      marginHorizontal:20,
+      alignItems:"center", 
+      marginTop:-40, 
+      height: height-250, 
+      width:width-40, 
+      alignSelf:"center"
+    },
+    qrCode:{
+      height: height-400, 
+      width:width-100, 
+      alignSelf:"center", 
+      justifyContent:"center"
+    },
+    qrImage:{
+      height: height-290, 
+      width:width-60, 
+      resizeMode:"contain"
+    },
+    shareView:{
+      flexDirection:"row", 
+      alignItems:"flex-start", 
+      justifyContent:"center"
+    },
+    shareImage:{
+      height:height-433, 
+      width:width-180,
+      resizeMode:"contain", 
+      marginTop:-10
+    },
+    shareHeading1:{
+      fontSize:20, 
+      color:"#FFFFFF", 
+      fontWeight:"700", 
+      marginRight:-60
+    },
+    shareHeading2:{
+      fontSize:20,
+      color:"#FFFFFF", 
+      fontWeight:"700", 
+      marginLeft:-60
+    },
     button:{
       backgroundColor:"#FE1E25",
       padding:5,
       paddingHorizontal:20,
       borderRadius:20,
-      alignSelf:"center"
+      alignSelf:"center",
+      marginBottom:40
+    },
+    buttonText:{
+      fontSize:25,
+      fontWeight:"700",
+      color:"white"
     }
 })
