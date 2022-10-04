@@ -1,6 +1,8 @@
 import { Image, Alert, StyleSheet, Text, TouchableOpacity, View,ScrollView, Dimensions } from 'react-native'
 import React, { useState } from 'react';
 import GroupIcon from "../assets/Group.svg";
+import LoveIcon from "../assets/Love.svg";
+import QRIcon from "../assets/QR.svg";
 import ArrowIcon from "../assets/Arrow.svg";
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
@@ -37,7 +39,7 @@ const MainPage = () => {
         </View>
         <Text style={styles.groupText}>50</Text>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.headingContent}>
           <Image
           source={require('../assets/Arrow.png')}
@@ -60,10 +62,7 @@ const MainPage = () => {
         <View style={[styles.scannerBackground, {backgroundColor: scannerActive ? "transparent" : "#424242"}]}>
           {(!scannerActive)
           ?
-          <Image
-          source={require("../assets/QR.png")}
-          style={styles.qrImage}
-          />
+          <QRIcon/>
           :
           <QRCodeScanner
           onRead={scanHandler}
@@ -71,12 +70,11 @@ const MainPage = () => {
           cameraStyle={styles.qrCode}
         />}
         </View>
-        <View style={{marginTop:10}}>
+        <View style={{marginTop: scannerActive ? 40 : 10}}>
           <View style={styles.shareView}>
             <Text style={styles.shareHeading1}>Share your</Text>
-            <Image
-            source={require("../assets/Love.png")}
-            style={styles.shareImage}
+            <LoveIcon
+            style={{marginTop:-12}}
             />
             <Text style={styles.shareHeading2}> with seller</Text>
           </View>
@@ -118,8 +116,10 @@ const styles = StyleSheet.create({
       marginLeft:-40
     },
     arrowImage:{
-      height:height-400, 
-      width:width-130, 
+      maxHeight:height-700, 
+      maxWidth:width-220, 
+      minHeight:height-700, 
+      minWidth:width-220, 
       resizeMode:"contain"
     },
     groupText:{
@@ -149,14 +149,19 @@ const styles = StyleSheet.create({
       padding:20, 
       marginHorizontal:20,
       alignItems:"center", 
-      marginTop:-40, 
-      height: height-250, 
-      width:width-40, 
-      alignSelf:"center"
+      marginTop:-20, 
+      maxHeight: height-500, 
+      minHeight: height-500,
+      minWidth:width-70, 
+      maxWidth:width-70,
+      alignSelf:"center",
+      justifyContent:"center"
     },
     qrCode:{
-      height: height-400, 
-      width:width-100, 
+      maxHeight: height-500, 
+      minHeight: height-500,
+      minWidth:width-200, 
+      maxWidth:width-200,
       alignSelf:"center", 
       justifyContent:"center"
     },
